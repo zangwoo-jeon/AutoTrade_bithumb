@@ -6,7 +6,7 @@ import time
 My = pybithumb.Bithumb("conkey", "seckey")
 
 def get_target_price(ticker, k):
-    df = pybithumb.get_ohlcv(ticker)[-8:]
+    df = pybithumb.get_ohlcv(ticker)[-2:]
     target_price = df.iloc[0]['close'] + (df.iloc[0]['high'] - df.iloc[0]['low']) * k
     return target_price
 
