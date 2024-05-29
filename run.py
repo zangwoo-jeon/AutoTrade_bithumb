@@ -71,7 +71,9 @@ while True:
         ma5 = get_ma5("ONDO")
         current_price = get_current_price("ONDO")
         krw = My.get_balance("ONDO")[2]
-        high_price = max(high_price, current_price)
+        #매수가 되었다면 최고가 갱신
+        if buy_price > 0:
+            high_price = max(high_price, current_price)
         print("target price : ", target_price, "ma5 : ", ma5, "current_price : ", current_price, "high price : ", high_price)
         if target_price < current_price and ma5 < current_price:
             buy_order_amount = krw*0.8
