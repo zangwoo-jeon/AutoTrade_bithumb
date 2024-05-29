@@ -91,7 +91,7 @@ while True:
                 print("손절합니다.")
                 sell_crypto_currency("ONDO")
 
-            if current_price < profit_price:
+            if last_buy_price < current_price < profit_price:
                 print("익절합니다.")
                 sell_crypto_currency("ONDO")
 
