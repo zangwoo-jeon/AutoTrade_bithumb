@@ -87,6 +87,9 @@ while True:
             last_buy_price = buy_price
             hand_cut_price = last_buy_price * 0.95  # 5% 이하로 빠졌을 때 매도 가격
             profit_price = high_price * 0.95  # 최고가 기준 5 이하 하락 했을 때 매도 가격
+            if current_price == high_price:
+                continue
+                
             if current_price < hand_cut_price:
                 print("손절합니다.")
                 sell_crypto_currency("ONDO")
