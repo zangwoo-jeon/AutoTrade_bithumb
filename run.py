@@ -88,10 +88,14 @@ while True:
             if current_price < hand_cut_price:
                 print("손절합니다.")
                 sell_crypto_currency("ONDO")
+                buy_price = 0
+                high_price = 0
 
             if last_buy_price < current_price < profit_price:
                 print("익절합니다.")
                 sell_crypto_currency("ONDO")
+                buy_price = 0
+                high_price = 0
 
         time.sleep(1)
 
