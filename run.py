@@ -1,5 +1,4 @@
 import pybithumb
-import datetime
 import numpy as np
 import time
 
