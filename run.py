@@ -58,6 +58,7 @@ def sell_crypto_currency(ticker):
 
 high_price = 0
 buy_price = 0
+sell_price = 100000
 
 while True:
     bk = find_best_k()
@@ -70,7 +71,7 @@ while True:
         if buy_price > 0:
             high_price = max(high_price, current_price)
         print("target price : ", target_price, "ma5 : ", ma5, "current_price : ", current_price, "high price : ", high_price)
-        if target_price < current_price and ma5 < current_price:
+        if target_price < current_price and ma5 < current_price and current_price < sell_price*0.95:
             buy_order_amount = krw*0.8
             if buy_order_amount > 5000:
                 print("매수합니다.")
@@ -88,12 +89,14 @@ while True:
             if current_price < hand_cut_price:
                 print("손절합니다.")
                 sell_crypto_currency("ONDO")
+                sell_price = current_price
                 buy_price = 0
                 high_price = 0
 
             if last_buy_price < current_price < profit_price:
                 print("익절합니다.")
                 sell_crypto_currency("ONDO")
+                sell_price = current_price
                 buy_price = 0
                 high_price = 0
 
