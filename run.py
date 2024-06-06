@@ -1,5 +1,4 @@
 import pybithumb
-
 import numpy as np
 import time
 
@@ -87,11 +86,14 @@ while True:
         # 매수가 되었다면 최고가 갱신
         if buy_price > 0:
             high_price = max(high_price, current_price)
+        TH_price = sell_price*0.97
+        if TH_price < max(Target_price, ma5):
+            TH_price = max(Target_price, ma5)*1.02
         #print("target price : ", Target_price, "ma5 : ", ma5)
         #print("current_price : ", current_price, "high price : ", high_price)
 
         if buy_price == 0:
-            if Target_price < current_price and ma5 < current_price and current_price < sell_price*0.95:
+            if Target_price < current_price and ma5 < current_price and current_price < TH_price:
                 buy_order_amount = round(Krw * 0.7)
                 #print("매수량 : ", buy_order_amount)
                 #print("매수합니다.")
