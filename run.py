@@ -98,7 +98,7 @@ while True:
         #print("target price : ", Target_price, "ma5 : ", ma5)
         #print("current_price : ", current_price, "high price : ", high_price)
 
-        # 만약 내가 해당 코인을 가지고 있지 않으면 매수 진행
+        # 만약 내가 매수를 하지 않았으면 매수 진행
         if buy_price == 0:
             # 현재가가 Target_price와 ma5 이상이면 상승장에 진입했다고 판단함. 그리고 TH_price보다 작으면 매수 진행
             if Target_price < current_price and ma5 < current_price and current_price < TH_price:
