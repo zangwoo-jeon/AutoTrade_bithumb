@@ -2,8 +2,10 @@ import pybithumb
 import numpy as np
 import time
 
+#여기에 connect key와 secret key를 입력한다. ex) "abcdef", "ghijklmn"
 My = pybithumb.Bithumb("conkey", "seckey")
 
+#여기에 ticker를 입력한다. ex) 비트코인이면 "BTC", 온도 코인이면 "ONDO" 
 my_ticker = "Write coin ticker here"
 
 #목표값 계산
@@ -63,6 +65,7 @@ def sell_crypto_currency(ticker):
     My.sell_market_order(ticker, unit)
 
 
+#high_price : 매수한 이후의 코인의 최고가, buy_price : 매수값, sell_price : 매도값, cal_k : bk 값 갱신 주기, bk : 수익률 계산 함수에서 계산한 최적의 k 값
 high_price = 0
 buy_price = 0
 sell_price = 100000
@@ -76,6 +79,7 @@ while True:
             cal_k = 70000
         #print("bk : ", bk)
         cal_k -= 1
+        #Target_price : 목표값, ma5 : 5일 평균선, current_price : 해당 코인의 현재가, Krw : 현재 내가 보유한 원화량, MY_unit : 내가 보유한 코인량
         Target_price = get_target_price(my_ticker, bk)
         ma5 = get_ma5(my_ticker)
         current_price = get_current_price(my_ticker)
@@ -86,29 +90,39 @@ while True:
         # 매수가 되었다면 최고가 갱신
         if buy_price > 0:
             high_price = max(high_price, current_price)
+        # TH_price : 다시 매수할 때에는 최근에 매도한 가격의 97% 가격을 임계값으로 설정
         TH_price = sell_price*0.97
+        # 만약 TH_price가 Target_price나 ma5의 최대값보다 작으면 매수가 안되므로 그 값의 1.02값으로 변경
         if TH_price < max(Target_price, ma5):
             TH_price = max(Target_price, ma5)*1.02
         #print("target price : ", Target_price, "ma5 : ", ma5)
         #print("current_price : ", current_price, "high price : ", high_price)
 
+        # 만약 내가 해당 코인을 가지고 있지 않으면 매수 진행
         if buy_price == 0:
+            # 현재가가 Target_price와 ma5 이상이면 상승장에 진입했다고 판단함. 그리고 TH_price보다 작으면 매수 진행
             if Target_price < current_price and ma5 < current_price and current_price < TH_price:
+                #현재 내가 보유한 원화량의 70%를 매수. 이유는 모르겠으나 이 가격이상으로는 오류가 발생해서 매수가 안됨
                 buy_order_amount = round(Krw * 0.7)
                 #print("매수량 : ", buy_order_amount)
                 #print("매수합니다.")
                 #print("매수 금액 : ", current_price)
                 buy_crypto_currency(buy_order_amount, my_ticker)
                 buy_price = current_price
-
+        
+        #내가 매수를 진행했으면 매도 진행
         elif buy_price > 0 and MY_unit > 0:
+            #last_buy_price : 현재 매수가, hand_cut_price : 손절가, 매수가에서 3%이상 떨어지면 손절, profit_price : 익절가, 최고가 기준 3%이상 떨어지면 익절
             last_buy_price = buy_price
-            #hand_cut_price = last_buy_price * 0.95  # 5% 이하로 빠졌을 때 매도 가격
-            hand_cut_price = last_buy_price * 0.95
-            profit_price = high_price * 0.95  # 최고가 기준 5 이하 하락 했을 때 매도 가격
+            #hand_cut_price = last_buy_price * 0.97
+            hand_cut_price = last_buy_price * 0.97
+            profit_price = high_price * 0.97
+            
+            # 만약 현재 최고가 갱신 중이면 매도하지 않고 존버
             if current_price == high_price:
                 continue
 
+            #손절가 이하로 떨어지면 매도도
             elif current_price < hand_cut_price:
                 #print("손절합니다.")
                 #print("손절가 : ", current_price)
@@ -117,6 +131,7 @@ while True:
                 buy_price = 0
                 high_price = 0
 
+            #익절가 이하로 떨어지면 익절
             elif last_buy_price < current_price < profit_price:
                 #print("익절합니다.")
                 #print("익절가 : ", current_price)
