@@ -1,2 +1,3 @@
-# AutoTradeONDO
-온도코인 자동매매
+# AutoTrade
+빗썸 코인 자동매매
+Bithumb Coin Auto Trade
