@@ -103,6 +103,8 @@ while True:
             # 현재가가 Target_price와 ma5 이상이면 상승장에 진입했다고 판단함. 그리고 TH_price보다 작으면 매수 진행
             if Target_price < current_price and ma5 < current_price and current_price < TH_price:
                 #현재 내가 보유한 원화량의 70%를 매수. 이유는 모르겠으나 이 가격이상으로는 오류가 발생해서 매수가 안됨
+                #혹시 매수할 금액을 변경하고 싶으면 buy_order_amount를 바꿔주면 된다.
+                #ex. 10만원어치를 매수하고 싶으면 buy_order_amount = 100000  
                 buy_order_amount = round(Krw * 0.7)
                 #print("매수량 : ", buy_order_amount)
                 #print("매수합니다.")
