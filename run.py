@@ -93,7 +93,7 @@ while True:
         # TH_price : 다시 매수할 때에는 최근에 매도한 가격의 97% 가격을 임계값으로 설정
         TH_price = sell_price*0.97
         # 만약 TH_price가 Target_price나 ma5의 최대값보다 작으면 매수가 안되므로 그 값의 1.02값으로 변경
-        if TH_price < max(Target_price, ma5):
+        if TH_price < max(Target_price, ma5) and current_price < max(Target_price, ma5):
             TH_price = max(Target_price, ma5)*1.02
         #print("target price : ", Target_price, "ma5 : ", ma5)
         #print("current_price : ", current_price, "high price : ", high_price)
