@@ -28,7 +28,7 @@ def get_current_price(ticker):
 def get_ror(ticker, k):
     df = pybithumb.get_ohlcv(ticker)[-8:]
     df['range'] = (df['high'] - df['low']) * k
-    df['target'] = df['low'] + df['range'].shift(1)
+    df['target'] = df['open'] + df['range'].shift(1)
 
     fee = 0.04
     df['ror'] = np.where(df['high'] > df['target'],
