@@ -116,12 +116,12 @@ while True:
         
         #내가 매수를 진행했으면 매도 진행
         elif buy_price > 0 and MY_unit > 0:
-            #last_buy_price : 현재 매수가, hand_cut_price : 손절가, 매수가에서 3%이상 떨어지면 손절, profit_price : 익절가, 최고가 기준 3%이상 떨어지면 익절
+            #last_buy_price : 현재 매수가, hand_cut_price : 손절가, 매수가에서 3%이상 떨어지면 손절, profit_price : 익절가, 매수가에서 5% 이상 오르면 익절
             last_buy_price = buy_price
             hand_cut_price = last_buy_price * 0.97
             profit_price = last_buy_price * 1.05
             
-            #손절가 이하로 떨어지면 매도도
+            #손절가 이하로 떨어지면 매도
             if current_price < hand_cut_price:
                 #print("손절합니다.")
                 #print("손절가 : ", current_price)
@@ -130,8 +130,8 @@ while True:
                 buy_price = 0
                 flag = False
 
-            #익절가 이하로 떨어지면 익절
-            elif last_buy_price < current_price < profit_price:
+            #익절가 이상으로 오르면 매도
+            elif current_price > profit_price:
                 #print("익절합니다.")
                 #print("익절가 : ", current_price)
                 sell_crypto_currency(my_ticker)
