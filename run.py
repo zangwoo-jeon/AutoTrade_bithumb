@@ -65,7 +65,7 @@ def sell_crypto_currency(ticker):
     My.sell_market_order(ticker, unit)
 
 
-#buy_price : 매수값, sell_price : 매도값, low_price : 매수 전 최저가 cal_k : bk 값 갱신 주기, bk : 수익률 계산 함수에서 계산한 최적의 k 값
+#buy_price : 매수값, sell_price : 매도값, low_price : 매수 전 최저가 cal_k : bk 값 갱신 주기, bk : 수익률 계산 함수에서 계산한 최적의 k 값, flag : 매수 준비
 buy_price = 0
 sell_price = 100000
 low_price = 100000
@@ -89,11 +89,10 @@ while True:
         TH_price = sell_price * 0.97
         #print("buy price : ", buy_price, "Krw : ", Krw)
         #print("보유 코인수 : ", MY_unit)
-        # 매수가 되었다면 최고가 갱신
+        # 매수가 아직 안되었으면 최저가 갱신
         if buy_price == 0:
             low_price = min(low_price, current_price)
-        # TH_price : 다시 매수할 때에는 최근에 매도한 가격의 97% 가격을 임계값으로 설정
-        # 만약 TH_price가 Target_price나 ma5의 최대값보다 작으면 매수가 안되므로 그 값의 1.02값으로 변경
+        # 만약 이전에 손절했는데 현재가가 최저가 기준 3% 오르면 다시 매수 준비
         if flag == False and current_price >= low_price * 1.03:
             flag = True
         #print("target price : ", Target_price, "ma5 : ", ma5)
@@ -101,7 +100,7 @@ while True:
 
         # 만약 내가 매수를 하지 않았으면 매수 진행
         if buy_price == 0:
-            # 현재가가 Target_price와 ma5 이상이면 상승장에 진입했다고 판단함. 그리고 TH_price보다 작으면 매수 진행
+            # 현재가가 Target_price와 ma5 이상이면 상승장에 진입했다고 판단함
             if Target_price < current_price and ma5 < current_price and flag == True:
                 #현재 내가 보유한 원화량의 70%를 매수. 이유는 모르겠으나 이 가격이상으로는 오류가 발생해서 매수가 안됨
                 #혹시 매수할 금액을 변경하고 싶으면 buy_order_amount를 바꿔주면 된다.
