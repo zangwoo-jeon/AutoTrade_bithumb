@@ -10,7 +10,9 @@ resource "google_compute_instance" "default" {
   }
 
   metadata_startup_script = <<-EOF
-    sudo apt-get install git
+    sudo apt-get update
+    sudo apt-get install -y git
+    cd /home/$USER
     git clone https://github.com/zangwoo-jeon/AutoTrade_bithumb.git
     sudo apt update
     sudo apt-get install -y python3-pip
